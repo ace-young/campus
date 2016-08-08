@@ -48,15 +48,15 @@
                 <div class="login-body">
                     <form action="/api/0.01/admin/login" method="post">
                         <div id="selectOrgization">
-                            <select name="selector1" id="selector1" class="form-control1">
-                                <option>校方</option>
-                                <option>计算学院/软件学院</option>
-                                <option>美术学院</option>
-                                <option>文学院</option>
+                            <select name="organization" id="organization" class="form-control1">
+                                <option value="校方">校方</option>
+                                <option value="计算学院/软件学院">计算学院/软件学院</option>
+                                <option value="美术学院">美术学院</option>
+                                <option value="文学院">文学院</option>
                             </select>
                         </div>
                         <br>
-                        <input type="text" class="user" name="username" placeholder="管理员用户名" required="">
+                        <input type="text" class="user" name="adminname" placeholder="管理员用户名" required="">
                         <input type="password" name="password" class="lock" placeholder="密码">
                         <input type="submit" name="Sign In" value="登录">
                     </form>

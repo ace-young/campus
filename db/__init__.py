@@ -1,4 +1,6 @@
+import time
 import motor.motor_tornado
+from tornado.web import gen
 
 
 class DBContorller:
@@ -8,3 +10,10 @@ class DBContorller:
     @classmethod
     def insert(cls):
         pass
+
+    @classmethod
+    @gen.coroutine
+    def get_organization(cls, organization):
+        result = yield cls.db.organization.find_one({}, {organization: 1})
+        print(result)
+        return result
