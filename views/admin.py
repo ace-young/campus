@@ -1,3 +1,4 @@
+import time
 import tornado.ioloop
 import tornado.web
 from tornado import gen
@@ -24,10 +25,11 @@ class LoginHandler(BaseHandler):
 
         # value from database
         result = yield DBContorller.get_organization(organization)
-        print(result)
+
+        # check and response
         if name == result[organization]['username'] and password == result[organization]['password']:
-            self.set_secure_cookie('user', self.get_argument('adminname'))
-            self.write('登录成功')
+            self.set_secure_cookie('user', self.get_argument('adminname'), expires=time.time() + 10)
+            self.redirect('/static/index.html')
         else:
             self.write('ERROR')
 
@@ -38,3 +40,13 @@ class PostMessage(tornado.web.RequestHandler):
         title = self.get_argument('title')
         content = self.get_argument('content')
         res = yield
+
+
+class Check(BaseHandler):
+    def post(self):
+        _type = self.get_argument('type')
+        if _type == 'login':
+            if not self.current_user:
+                self.write('0')
+            else:
+                self.write('1')  # 1 mean had login

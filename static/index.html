@@ -136,5 +136,12 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 <!--//scrolling js-->
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.post('/api/0.01/admin/check', {type:'login'}, function (data) {
+            alert(data);
+        })
+    })
+</script>
 </body>
 </html>
