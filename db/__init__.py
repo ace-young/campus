@@ -15,5 +15,4 @@ class DBContorller:
     @gen.coroutine
     def get_organization(cls, organization):
         result = yield cls.db.organization.find_one({}, {organization: 1})
-        print(result)
         return result

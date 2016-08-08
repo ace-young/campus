@@ -24,10 +24,12 @@ class LoginHandler(BaseHandler):
 
         # value from database
         result = yield DBContorller.get_organization(organization)
-        if name == result['username'] and password == result['password']:
+        print(result)
+        if name == result[organization]['username'] and password == result[organization]['password']:
             self.set_secure_cookie('user', self.get_argument('adminname'))
             self.write('登录成功')
-        self.write('登录- ERROR')
+        else:
+            self.write('ERROR')
 
 
 class PostMessage(tornado.web.RequestHandler):
