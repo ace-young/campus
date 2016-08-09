@@ -1,4 +1,5 @@
 import time
+import json
 import tornado
 import tornado.ioloop
 import tornado.web
@@ -91,5 +92,4 @@ class LoadMessage(BaseHandler):
         print('result->In LoadMessage:', result)
         for document in result:
             print('In for loop->', document)
-        ret = ''
-        self.write(ret)
+        self.write(json.dumps(result, ensure_ascii=False))

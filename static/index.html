@@ -100,7 +100,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <!-- //header-ends -->
     <!-- main content start-->
     <div id="page-wrapper">
-        <div class="main-page">
+        <div class="main-page" id="mainPage">
             <form class="com-mail" id="form" name="form">
                 <input type="text" id="title" name="title" class="form-control1 control3" placeholder="标题 :"
                        required="required">
@@ -153,6 +153,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             $.post('/api/0.01/admin/postMessage', $('#form').serialize(), function (data) {
                 if (data == '1') {
                     alert('发送成功')
+                    window.local().reload();
                 }
                 else {
                     alert('发送失败');
@@ -164,7 +165,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     function loadMessage() {
         $.get('/api/0.01/admin/organization', function (data) {
             $.get('/api/0.01/admin/loadMessage', {org: data}, function (data) {
-                alert(data)
+                $('#mainPage').html(data)
             })
         });
     }

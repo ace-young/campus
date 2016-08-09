@@ -1,5 +1,5 @@
-import time
 import motor.motor_tornado
+from datetime import datetime
 from tornado.web import gen
 
 
@@ -40,8 +40,10 @@ class DBContorller:
         fuck ↑
         '''
         messages = []
-        cursor = cls.db.message.find({'org':org})
+        cursor = cls.db.message.find({'org': org}, {'_id': 0, 'org': 0})
         while (yield cursor.fetch_next):
             document = cursor.next_object()
-            messages.append(document)
+            messages.append({'标题': document['title'], '内容': document['content'],
+                             '时间': str(datetime.strptime(document['time'], '%Y%m%d%H%M%S'))})
+            messages.append('<hr><br>')
         return messages
