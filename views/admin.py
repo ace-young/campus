@@ -55,9 +55,9 @@ class PostMessage(BaseHandler):
         print(document)
         result = DBContorller.insert(collection='message', document=document)
         if result:
-            self.redirect('/static/index.html')
+            self.write('1')
         else:
-            self.redirect('erro.html')
+            self.write('0')
 
 
 class Check(BaseHandler):

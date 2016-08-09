@@ -101,12 +101,15 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <!-- main content start-->
     <div id="page-wrapper">
         <div class="main-page">
-            <form class="com-mail" id="form" name="form" action="/api/0.01/admin/postMessage" method="post">
-                <input type="text" name="title" class="form-control1 control3" placeholder="标题 :">
-                <textarea rows="6" name="content" class="form-control1 control2" placeholder="通知内容 :"></textarea>
+            <form class="com-mail" id="form" name="form">
+                <input type="text" id="title" name="title" class="form-control1 control3" placeholder="标题 :"
+                       required="required">
+                <textarea rows="6" id="content" name="content" class="form-control1 control2" placeholder="通知内容 :"
+                          required="required"></textarea>
+                <button onclick="submitForm()">发布</button>
 
-                <input type="submit" value="发布">
             </form>
+
         </div>
     </div>
     <!--footer-->
@@ -138,11 +141,26 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             }
             else {
                 $.get('/api/0.01/admin/organization', function (data) {
-                    $('#organizaiton').html(data)
+                    $('#organizaiton').html('<h3>' + data + '</h3>')
                 })
             }
         })
-    })
+    });
+    function submitForm() {
+        var title = $("#title").val();
+        var content = $('#content').val();
+        if (title != '' && content != '') {
+            $.post('/api/0.01/admin/postMessage', $('#form').serialize(), function (data) {
+                if (data == '1') {
+                    alert('发送成功')
+                }
+                else {
+                    alert('发送失败');
+                }
+            })
+        }
+
+    }
 </script>
 </body>
 </html>
