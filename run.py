@@ -1,7 +1,7 @@
 import os
 import tornado.ioloop
 import tornado.web
-from views.admin import LoginHandler, Check, LoadOrganization, PostMessage
+from views.admin import LoginHandler, Check, LoadOrganization, PostMessage, LoadMessage
 
 '''
     运行入口
@@ -21,6 +21,7 @@ def make_app():
             (r'/api/0.01/admin/check', Check),
             (r'/api/0.01/admin/organization', LoadOrganization),
             (r'/api/0.01/admin/postMessage', PostMessage),
+            (r'/api/0.01/admin/loadMessage', LoadMessage)
         ],
         **settings
     )

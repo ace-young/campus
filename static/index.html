@@ -52,7 +52,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                 <ul class="nav" id="side-menu">
                     <li class="active">
                         <a href="javascript:void(0)" onclick="loadForm()"><i class="fa fa-book "></i>发布内容</a>
-                        <a href="javascript:void(0)" onclick="loadHistory()"><i class="fa fa-book "></i>历史记录</a>
+                        <a href="javascript:void(0)" onclick="loadMessage()"><i class="fa fa-book "></i>历史记录</a>
 
                         <!-- /nav-second-level -->
                     </li>
@@ -106,9 +106,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
                        required="required">
                 <textarea rows="6" id="content" name="content" class="form-control1 control2" placeholder="通知内容 :"
                           required="required"></textarea>
-                <button onclick="submitForm()">发布</button>
-
             </form>
+            <button onclick="submitForm()">发布</button>
+
 
         </div>
     </div>
@@ -160,6 +160,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
             })
         }
 
+    }
+    function loadMessage() {
+        $.get('/api/0.01/admin/organization', function (data) {
+            $.get('/api/0.01/admin/loadMessage', {org: data}, function (data) {
+                alert(data)
+            })
+        });
     }
 </script>
 </body>

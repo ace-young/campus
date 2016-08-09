@@ -24,3 +24,24 @@ class DBContorller:
     def get_organization(cls, organization):
         result = yield cls.db.organization.find_one({}, {organization: 1})
         return result
+
+    @classmethod
+    @gen.coroutine
+    def get_message(cls, org):
+        '''
+        result = None
+        try:
+            result = yield DBContorller.db.message.find({'org': org})
+            for document
+        except Exception as e:
+            print(e)
+        finally:
+            return result
+        fuck ↑
+        '''
+        messages = []
+        cursor = cls.db.message.find({'org':org})
+        while (yield cursor.fetch_next):
+            document = cursor.next_object()
+            messages.append(document)
+        return messages

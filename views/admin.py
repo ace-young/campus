@@ -22,7 +22,6 @@ class LoginHandler(BaseHandler):
         # value from html form
         name = self.get_argument('adminname')
         organization = self.get_argument('organization')
-        print(organization)
         password = self.get_argument('password')
 
         # value from database
@@ -52,7 +51,6 @@ class PostMessage(BaseHandler):
             'time': _time,
             'org': org
         }
-        print(document)
         result = DBContorller.insert(collection='message', document=document)
         if result:
             self.write('1')
@@ -77,3 +75,21 @@ class LoadOrganization(BaseHandler):
     def get(self, *args, **kwargs):
         org = self.get_secure_cookie('organization')
         self.write(org)
+
+
+class LoadMessage(BaseHandler):
+    @tornado.web.authenticated
+    @gen.coroutine
+    def get(self):
+        '''
+        org:database query response
+        :return:
+            ret : str
+        '''
+        org = self.get_argument('org')
+        result = yield DBContorller.get_message(org)
+        print('result->In LoadMessage:', result)
+        for document in result:
+            print('In for loop->', document)
+        ret = ''
+        self.write(ret)
