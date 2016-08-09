@@ -101,9 +101,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
     <!-- main content start-->
     <div id="page-wrapper">
         <div class="main-page">
-            <form class="com-mail" id="form" name="form">
-                <input type="text" class="form-control1 control3" placeholder="标题 :">
-                <textarea rows="6" class="form-control1 control2" placeholder="通知内容 :"></textarea>
+            <form class="com-mail" id="form" name="form" action="/api/0.01/admin/postMessage" method="post">
+                <input type="text" name="title" class="form-control1 control3" placeholder="标题 :">
+                <textarea rows="6" name="content" class="form-control1 control2" placeholder="通知内容 :"></textarea>
 
                 <input type="submit" value="发布">
             </form>

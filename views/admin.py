@@ -2,6 +2,7 @@ import time
 import tornado
 import tornado.ioloop
 import tornado.web
+from datetime import datetime
 from tornado import gen
 from db import DBContorller
 
@@ -37,12 +38,26 @@ class LoginHandler(BaseHandler):
             self.write('ERROR')
 
 
-class PostMessage(tornado.web.RequestHandler):
+class PostMessage(BaseHandler):
+    @tornado.web.authenticated
     @gen.coroutine
     def post(self, *args, **kwargs):
         title = self.get_argument('title')
         content = self.get_argument('content')
-        res = yield
+        _time = datetime.now().strftime("%Y%m%d%H%M%S")
+        org = self.get_secure_cookie('organization').decode('utf8')
+        document = {
+            'title': title,
+            'content': content,
+            'time': _time,
+            'org': org
+        }
+        print(document)
+        result = DBContorller.insert(collection='message', document=document)
+        if result:
+            self.redirect('/static/index.html')
+        else:
+            self.redirect('erro.html')
 
 
 class Check(BaseHandler):
@@ -53,6 +68,8 @@ class Check(BaseHandler):
                 self.write('0')
             else:
                 self.write('1')  # 1 mean had login
+        else:
+            pass
 
 
 class LoadOrganization(BaseHandler):

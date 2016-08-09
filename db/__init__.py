@@ -8,8 +8,16 @@ class DBContorller:
     db = client.campus
 
     @classmethod
-    def insert(cls):
-        pass
+    @gen.coroutine
+    def insert(cls, collection, document):
+        result = True
+        try:
+            yield cls.db[collection].insert(document)
+        except Exception as e:
+            print(e)
+            result = False
+        finally:
+            return result
 
     @classmethod
     @gen.coroutine
