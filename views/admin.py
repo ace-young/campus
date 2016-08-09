@@ -1,4 +1,5 @@
 import time
+import tornado
 import tornado.ioloop
 import tornado.web
 from tornado import gen
@@ -28,7 +29,9 @@ class LoginHandler(BaseHandler):
 
         # check and response
         if name == result[organization]['username'] and password == result[organization]['password']:
-            self.set_secure_cookie('user', self.get_argument('adminname'), expires=time.time() + 10)
+            # 15 * 60 mean cookies could remain in 15 minutes.
+            self.set_secure_cookie('user', name, expires=time.time() + 15 * 60)
+            self.set_secure_cookie('organization', organization, expires=time.time() + 15 * 60)
             self.redirect('/static/index.html')
         else:
             self.write('ERROR')
@@ -50,3 +53,10 @@ class Check(BaseHandler):
                 self.write('0')
             else:
                 self.write('1')  # 1 mean had login
+
+
+class LoadOrganization(BaseHandler):
+    @tornado.web.authenticated
+    def get(self, *args, **kwargs):
+        org = self.get_secure_cookie('organization')
+        self.write(org)
