@@ -2,22 +2,33 @@ import React, {Component} from 'react';
 import {AppRegistry, Image,Text,View} from 'react-native';
 
 
-class Greeting extends Component {
-    render() {
-        return (
-            <Text>Hello {this.props.name} !</Text>
-        );
+class Blink extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {showText:true};
+
+        //每1000毫秒对showText状态做一次取反操作
+        setInterval(() => {
+            this.setState({showText:!this.state.showText});
+        }, 2000);
     }
-}
-class AwesomeProject extends Component {
+
     render() {
+        let display = this.state.showText ? this.props.text : ' ';
         return (
-            <View style = {{alignItems:'center'}}>
-                <Greeting name = 'Rexxar' />
-                <Greeting name = 'LWH' />
-            </View>
+            <Text>{display}</Text>
         );
     }
 }
 
+class AwesomeProject extends Component {
+    render() {
+        return (
+            <View>
+                <Blink text='LWH' />
+                <Blink text='a'/>
+            </View>
+        );
+    }
+}
 AppRegistry.registerComponent('AwesomeProject', ()=>AwesomeProject)
