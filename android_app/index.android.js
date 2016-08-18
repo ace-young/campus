@@ -1,29 +1,27 @@
 import React, {Component} from 'react'
-import {AppRegistry, StyleSheet, Text, View} from 'react-native'
+import {AppRegistry, StyleSheet, Text, View, TextInput, ListView} from 'react-native'
 
 class AwesomeProject extends Component {
+    constructor(props) {
+        super(props);
+        const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=>r1 !== r2});
+        this.state = {
+            dataSource:ds.cloneWithRows(
+                ['John', 'Mike','Jam','John', 'Mike','Jam','John', 'Mike','Jam']
+            )
+        };
+    }
     render() {
         return (
-            <View>
-                <Text style={styles.red}>just red</Text>
-                <Text style={styles.bigblue}>just bigblue</Text>
-                <Text style={[styles.bigblue, styles.red]}>bigblue, then red</Text>
-                <Text style={[styles.red, styles.bigblue]}>red, then bigblue</Text>
+            <View style={{paddingTop:22}}>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={(rowData)=><Text>{rowData}</Text>}
+                />
             </View>
         );
     }
 }
 
-
-const styles = StyleSheet.create({
-    bigblue:{
-        color:'blue',
-        fontWeight:'bold',
-        fontSize:30,
-    },
-    red:{
-        color:'red',
-    },
-});
 
 AppRegistry.registerComponent('AwesomeProject', ()=>AwesomeProject)
