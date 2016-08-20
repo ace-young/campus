@@ -1,27 +1,45 @@
 import React, {Component} from 'react'
-import {AppRegistry, StyleSheet, Text, View, TextInput, ListView} from 'react-native'
+import {
+    AppRegistry,
+    Text,
+    View,
+    Alert,
+    ToolbarAndroid,
+    StyleSheet
+} from 'react-native'
 
 class AwesomeProject extends Component {
-    constructor(props) {
-        super(props);
-        const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=>r1 !== r2});
-        this.state = {
-            dataSource:ds.cloneWithRows(
-                ['John', 'Mike','Jam','John', 'Mike','Jam','John', 'Mike','Jam']
-            )
-        };
-    }
     render() {
         return (
-            <View style={{paddingTop:22}}>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={(rowData)=><Text>{rowData}</Text>}
-                />
-            </View>
-        );
-    }
+            <View>
+            <ToolbarAndroid
+                navIcon={require('./menu16.png')}
+                onIconClicked={this.navIconCallback}
+                title="计算机学院/软件学院"
+                actions={[{title:'设置',show:'never'}, {title:'关于',show:'never'}]}
+                onActionSelected={this.onActionSelected}
+                titleColor='#F8F8FF'
+                style={styles.toolbarAndroid}
+            />
+        </View>
+
+
+        )
+    };
+    onActionSelected(position) {
+        Alert.alert('alert')
+    };
+    navIconCallback() {
+        Alert.alert('alert')
+    };
 }
 
+const styles = StyleSheet.create({
+    toolbarAndroid:{
+        height:46,
+        backgroundColor:'#00CD00',
+        shadowColor:'#F5F5F5',
+    }
+})
 
-AppRegistry.registerComponent('AwesomeProject', ()=>AwesomeProject)
+AppRegistry.registerComponent('AwesomeProject',()=>AwesomeProject)
