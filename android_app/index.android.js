@@ -10,7 +10,8 @@ import {
     Navigator,
     BackAndroid,
     TouchableOpacity,
-    StatusBar
+    StatusBar,
+    ScrollView
 } from 'react-native'
 
 let _navigator;
@@ -24,9 +25,15 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 });
 
 class NavMenu extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title:null
+        }
+    }
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView  style={styles.container}>
                 <ToolbarAndroid
                     navIcon={require('./back_white_16.png')}
                     onIconClicked={this._back.bind(this)}
@@ -34,42 +41,46 @@ class NavMenu extends Component {
                     titleColor='#F8F8FF'
                     style={styles.toolbarAndroid}
                 />
-                <TouchableOpacity style={styles.navemenu}
+            <TouchableOpacity style={styles.navemenu} onPress={()=>this._callback("学校")}
                     renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator}/>}>
-                    <Text style={styles.navmenutext}>学校官方</Text>
+                    <Text style={styles.navmenutext}>学校</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.navemenu}
+                <TouchableOpacity style={styles.navemenu} onPress={()=>this._callback("计算机学院/软件学院")}
                     renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator}/>}>
                     <Text style={styles.navmenutext}>计算机学院/软件学院</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.navemenu}
+                <TouchableOpacity style={styles.navemenu} onPress={()=>this._callback("音乐学院")}
                     renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator}/>}>
                     <Text style={styles.navmenutext}>音乐学院</Text>
                 </TouchableOpacity>
 
-            </View>
+                <TouchableOpacity style={styles.navemenu} onPress={()=>this._callback("经济与管理学院")}
+                    renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator}/>}>
+                    <Text style={styles.navmenutext}>经济与管理学院</Text>
+                </TouchableOpacity>
+
+            </ScrollView>
         );
     }
     _back() {
         this.props.navigator.pop()
     }
-    _renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
-        return (
-         <View
-           key={`${sectionID}-${rowID}`}
-           style={{
-             height: adjacentRowHighlighted ? 4 : 1,
-             backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
-           }}
-         />
-   );
+    _callback(title) {
+        //alert(title)
+        this.props.navigator.resetTo({
+            id:'home1',
+            component:NavMain,
+            params:{title:title}
+        })
     }
+
 }
 class AwesomeProject extends Component {
 
     render() {
+        //Alert.alert(this.props.title)
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -78,7 +89,7 @@ class AwesomeProject extends Component {
                 <ToolbarAndroid
                     navIcon={require('./menu16.png')}
                     onIconClicked={this.navIconCallback.bind(this)}
-                    title="计算机学院/软件学院"
+                    title={this.props.title}
                     actions={[{title:'设置',show:'never'}, {title:'关于',show:'never'}]}
                     onActionSelected={this.onActionSelected}
                     titleColor='#F8F8FF'
@@ -94,8 +105,12 @@ class AwesomeProject extends Component {
     navIconCallback() {
         this.props.navigator.push({
             id:"navmenu",
-            component:NavMenu
+            component:NavMenu,
         });
+    };
+    _loadView() {
+        //Alert.alert('alert')
+        return true
     };
 
 }
@@ -113,9 +128,11 @@ class NavMain extends Component {
         _navigator = navigator;
         switch (route.id) {
             case 'home':
-                return (<AwesomeProject id={"home"} navigator={navigator} />)
+                return (<AwesomeProject {...route.params} id={"home"} title={'学校'} navigator={navigator} />)
             case 'navmenu':
-                return (<NavMenu id={"navmenu"} navigator={navigator} />)
+                return (<NavMenu {...route.params} id={"navmenu"} navigator={navigator} />)
+            case 'home1':
+                return (<AwesomeProject {...route.params} id={"home"}  navigator={navigator} />)
         }
 
     }
