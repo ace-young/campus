@@ -11,7 +11,8 @@ import {
     BackAndroid,
     TouchableOpacity,
     StatusBar,
-    ScrollView
+    ScrollView,
+    ListView
 } from 'react-native'
 
 let _navigator;
@@ -78,13 +79,21 @@ class NavMenu extends Component {
 
 }
 class AwesomeProject extends Component {
+    constructor(props) {
+        super(props)
+        this.getMessageData = this.getMessageData.bind(this);
+    }
+
+    componentDidMount() {
+        this.getMessageData()
+    }
 
     render() {
         //Alert.alert(this.props.title)
         return (
             <View style={styles.container}>
                 <StatusBar
-                    backgroundColor="#00CD00"
+                    backgroundColor="#1E90FF"
                  />
                 <ToolbarAndroid
                     navIcon={require('./menu16.png')}
@@ -95,6 +104,7 @@ class AwesomeProject extends Component {
                     titleColor='#F8F8FF'
                     style={styles.toolbarAndroid}
                 />
+
             </View>
 
         )
@@ -112,6 +122,10 @@ class AwesomeProject extends Component {
         //Alert.alert('alert')
         return true
     };
+    getMessageData() {
+        //Alert.alert(this.props.title)
+        
+    }
 
 }
 
@@ -144,7 +158,7 @@ const styles = StyleSheet.create({
     },
     toolbarAndroid:{
         height:46,
-        backgroundColor:'#00CD00',
+        backgroundColor:'#1E90FF',
         shadowColor:'#F5F5F5',
     },
     navemenu:{
