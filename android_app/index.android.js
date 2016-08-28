@@ -202,17 +202,23 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         flex: 1,
-        backgroundColor: '#F6F6EF',
+        backgroundColor: '#ffffff',
         flexDirection: 'column',
         paddingRight: 10,
         paddingLeft: 10,
     },
     headerTitle: {
-      fontSize: 20,
+      fontSize: 15,
       textAlign: 'left',
-      marginTop: 10,
-      marginBottom: 10,
-      color: '#FF6600',
+      marginTop: 5,
+      marginBottom: 5,
+      color: '#000000',
+    },
+    headerTime:{
+        fontSize: 13,
+        textAlign: 'right',
+        marginTop: 5,
+        marginBottom: 5,
     },
     views:{
         flex:1,
