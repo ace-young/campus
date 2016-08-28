@@ -80,6 +80,23 @@ class NavMenu extends Component {
     }
 
 }
+
+class Detail extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return(
+            <View>
+                <Text>
+                    View
+                </Text>
+            </View>
+        )
+    }
+}
+
 class AwesomeProject extends Component {
     constructor(props) {
         super(props)
@@ -115,7 +132,7 @@ class AwesomeProject extends Component {
                 />
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderMessage}
+                    renderRow={this.renderMessage.bind(this)}
                     style={styles.listView}
                   />
             </View>
@@ -125,18 +142,26 @@ class AwesomeProject extends Component {
     };
     renderMessage(message) {
         return (
-            <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>
-                    {message.title}
-                </Text>
-                <Text>
-                    {message.content}
-                </Text>
-                <Text>
-                    {message.time}
-                </Text>
-            </View>
+            <TouchableOpacity onPress={this._onPressButton.bind(this)}>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.headerTitle}>
+                        {message.title}
+                    </Text>
+                    <Text>
+                        {message.content}
+                    </Text>
+                    <Text style={styles.headerTime}>
+                        {message.time}
+                    </Text>
+                </View>
+            </TouchableOpacity>
         )
+    }
+    _onPressButton() {
+        this.props.navigator.push({
+            id:"detail",
+            component:Detail,
+        });
     }
     onActionSelected(position) {
         Alert.alert('alert')
@@ -188,6 +213,8 @@ class NavMain extends Component {
                 return (<NavMenu {...route.params} id={"navmenu"} navigator={navigator} />)
             case 'home1':
                 return (<AwesomeProject {...route.params} id={"home"}  navigator={navigator} />)
+            case 'detail':
+                return (<Detail {...route.params} id={"detail"} navigator={navigator} />)
         }
 
     }
