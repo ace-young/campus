@@ -2,6 +2,7 @@ import os
 import tornado.ioloop
 import tornado.web
 from views.admin import LoginHandler, Check, LoadOrganization, PostMessage, LoadMessage
+from views.to_client import  ClientLoadMessage
 
 '''
     运行入口
@@ -10,7 +11,7 @@ from views.admin import LoginHandler, Check, LoadOrganization, PostMessage, Load
 settings = {
     'static_path': os.path.join(os.path.dirname(__file__), 'static'),
     'cookie_secret': '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
-    'login_url': '/api/0.01/admin/login'
+    'login_url': '/api/0.01/admin/login',
 }
 
 
@@ -21,9 +22,10 @@ def make_app():
             (r'/api/0.01/admin/check', Check),
             (r'/api/0.01/admin/organization', LoadOrganization),
             (r'/api/0.01/admin/postMessage', PostMessage),
-            (r'/api/0.01/admin/loadMessage', LoadMessage)
+            (r'/api/0.01/admin/loadMessage', LoadMessage),
+            (r'/api/0.01/client/loadMessage', ClientLoadMessage)
         ],
-        **settings
+        **settings, debug=True
     )
 
 

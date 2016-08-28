@@ -89,7 +89,5 @@ class LoadMessage(BaseHandler):
         '''
         org = self.get_argument('org')
         result = yield DBContorller.get_message(org)
-        print('result->In LoadMessage:', result)
-        for document in result:
-            print('In for loop->', document)
+        #print('result->In LoadMessage:', result)
         self.write(json.dumps(result, ensure_ascii=False))

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.11.1.min.js"></script>
+
+</head>
+<body>
+<hr>
+Ajax Data : <span id="message"></span>
+<hr>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.get('/api/0.01/client/loadMessage',{organization:'校方'}, function (value) {
+            //alert(value)
+            $('#message').html(value)
+        })
+    })
+</script>
+</body>
+</html>

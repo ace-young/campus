@@ -1,7 +1,5 @@
 import motor.motor_tornado
-import os
-import pprint
-from database_example import example
+from database_example import organization
 from tornado.ioloop import IOLoop
 from tornado import gen
 
@@ -12,7 +10,7 @@ db = client.campus
 
 @gen.coroutine
 def do_insert():
-    future = db.organization.insert(example)
+    future = db.organization.insert(organization)
     result = yield future
 
 
