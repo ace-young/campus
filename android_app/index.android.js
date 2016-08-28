@@ -12,9 +12,11 @@ import {
     TouchableOpacity,
     StatusBar,
     ScrollView,
-    ListView
+    ListView,
+    Console
 } from 'react-native'
 
+let REQUEST_URL = 'http://www.lwhile.com/api/0.01/client/loadMessage?';
 let _navigator;
 
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -42,9 +44,9 @@ class NavMenu extends Component {
                     titleColor='#F8F8FF'
                     style={styles.toolbarAndroid}
                 />
-            <TouchableOpacity style={styles.navemenu} onPress={()=>this._callback("学校")}
+            <TouchableOpacity style={styles.navemenu} onPress={()=>this._callback("校方")}
                     renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator}/>}>
-                    <Text style={styles.navmenutext}>学校</Text>
+                    <Text style={styles.navmenutext}>校方</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.navemenu} onPress={()=>this._callback("计算机学院/软件学院")}
@@ -81,6 +83,12 @@ class NavMenu extends Component {
 class AwesomeProject extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            dataSource:new ListView.DataSource({
+                rowHasChanged:(row1,row2) => row1 !== row2,
+            }),
+            loaded:false,
+        };
         this.getMessageData = this.getMessageData.bind(this);
     }
 
@@ -90,6 +98,7 @@ class AwesomeProject extends Component {
 
     render() {
         //Alert.alert(this.props.title)
+
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -104,11 +113,31 @@ class AwesomeProject extends Component {
                     titleColor='#F8F8FF'
                     style={styles.toolbarAndroid}
                 />
-
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderMessage}
+                    style={styles.listView}
+                  />
             </View>
 
         )
+
     };
+    renderMessage(message) {
+        return (
+            <View style={styles.headerContainer}>
+                <Text style={styles.headerTitle}>
+                    {message.title}
+                </Text>
+                <Text>
+                    {message.content}
+                </Text>
+                <Text>
+                    {message.time}
+                </Text>
+            </View>
+        )
+    }
     onActionSelected(position) {
         Alert.alert('alert')
     };
@@ -124,7 +153,19 @@ class AwesomeProject extends Component {
     };
     getMessageData() {
         //Alert.alert(this.props.title)
-        
+        _url = REQUEST_URL + 'organization=' + this.props.title
+        console.log(_url)
+        fetch(_url)
+            .then((response)=>response.json())
+            .then((responseData)=>{
+                this.setState({
+                    dataSource:this.state.dataSource.cloneWithRows(responseData),
+                    loaded:true
+                });
+                console.log(_url)
+                console.log(responseData)
+            })
+            .done();
     }
 
 }
@@ -142,7 +183,7 @@ class NavMain extends Component {
         _navigator = navigator;
         switch (route.id) {
             case 'home':
-                return (<AwesomeProject {...route.params} id={"home"} title={'学校'} navigator={navigator} />)
+                return (<AwesomeProject {...route.params} id={"home"} title={'校方'} navigator={navigator} />)
             case 'navmenu':
                 return (<NavMenu {...route.params} id={"navmenu"} navigator={navigator} />)
             case 'home1':
@@ -155,6 +196,27 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:'#ffffff',
+    },
+    listView:{
+
+    },
+    headerContainer: {
+        flex: 1,
+        backgroundColor: '#F6F6EF',
+        flexDirection: 'column',
+        paddingRight: 10,
+        paddingLeft: 10,
+    },
+    headerTitle: {
+      fontSize: 20,
+      textAlign: 'left',
+      marginTop: 10,
+      marginBottom: 10,
+      color: '#FF6600',
+    },
+    views:{
+        flex:1,
+
     },
     toolbarAndroid:{
         height:46,
