@@ -88,6 +88,6 @@ class LoadMessage(BaseHandler):
             ret : str
         '''
         org = self.get_argument('org')
-        result = yield DBContorller.get_message(org)
+        result = yield DBContorller.get_messages(org)
         #print('result->In LoadMessage:', result)
         self.write(json.dumps(result, ensure_ascii=False))

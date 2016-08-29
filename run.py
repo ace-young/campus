@@ -2,7 +2,7 @@ import os
 import tornado.ioloop
 import tornado.web
 from views.admin import LoginHandler, Check, LoadOrganization, PostMessage, LoadMessage
-from views.to_client import  ClientLoadMessage
+from views.to_client import  ClientLoadMessage, ClientMessageDetail
 
 '''
     运行入口
@@ -23,7 +23,8 @@ def make_app():
             (r'/api/0.01/admin/organization', LoadOrganization),
             (r'/api/0.01/admin/postMessage', PostMessage),
             (r'/api/0.01/admin/loadMessage', LoadMessage),
-            (r'/api/0.01/client/loadMessage', ClientLoadMessage)
+            (r'/api/0.01/client/loadMessage', ClientLoadMessage),
+            (r'/api/0.01/client/MessageDetail', ClientMessageDetail)
         ],
         **settings, debug=True
     )
