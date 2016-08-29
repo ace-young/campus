@@ -88,12 +88,22 @@ class Detail extends Component {
 
     render() {
         return(
-            <View>
-                <Text>
-                    View
-                </Text>
+            <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#1E90FF"
+             />
+             <ToolbarAndroid
+                 navIcon={require('./back_white_16.png')}
+                 onIconClicked={this._back.bind(this)}
+                 title="选择频道"
+                 titleColor='#F8F8FF'
+                 style={styles.toolbarAndroid}
+             />
             </View>
         )
+    }
+    _back() {
+        this.props.navigator.pop()
     }
 }
 
