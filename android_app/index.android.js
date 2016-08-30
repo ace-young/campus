@@ -16,7 +16,8 @@ import {
     Console
 } from 'react-native'
 
-let REQUEST_URL = 'http://www.lwhile.com/api/0.01/client/loadMessage?';
+let REQUEST_URL_MESSAGES = 'http://www.lwhile.com/api/0.01/client/loadMessage?';
+let REQUEST_URL_DETAIL = 'http://lwhile.com/api/0.01/client/MessageDetail?'
 let _navigator;
 
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -84,16 +85,76 @@ class NavMenu extends Component {
 class Detail extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            message:null
+        }
+        this.getMessageDetail = this.getMessageDetail.bind(this)
     }
-
+    componentDidMount() {
+        this.getMessageDetail()
+    }
     render() {
+        if(!this.state.message) {
+            return this.renderLoadView()
+        }
         return(
-            <View>
-                <Text>
-                    View
-                </Text>
+            <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#1E90FF"
+             />
+             <ToolbarAndroid
+                 navIcon={require('./back_white_16.png')}
+                 onIconClicked={this._back.bind(this)}
+                 title="查看消息"
+                 titleColor='#F8F8FF'
+                 style={styles.toolbarAndroid}
+             />
+             <Text>
+                 Title:{this.state.message.title}
+                 Content:{this.state.message.content}
+                 org:{this.state.message.org}
+                 time:{this.state.message.time}
+             </Text>
             </View>
         )
+    }
+    renderLoadView() {
+        return(
+            <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#1E90FF"
+             />
+             <ToolbarAndroid
+                 navIcon={require('./back_white_16.png')}
+                 onIconClicked={this._back.bind(this)}
+                 title="查看消息"
+                 titleColor='#F8F8FF'
+                 style={styles.toolbarAndroid}
+             />
+             <Text>
+                 加载中...
+             </Text>
+            </View>
+        )
+    }
+    _back() {
+        //Alert.alert(this.props.messageId)
+        this.props.navigator.pop()
+    }
+
+    getMessageDetail() {
+        _url = REQUEST_URL_DETAIL + 'id=' + this.props.messageId
+        console.log(_url)
+        fetch(_url)
+            .then((response)=>response.json())
+            .then((responseData)=>{
+                this.setState({
+                    message:responseData
+                });
+                console.log(_url)
+                console.log(responseData)
+            })
+            .done();
     }
 }
 
@@ -142,7 +203,7 @@ class AwesomeProject extends Component {
     };
     renderMessage(message) {
         return (
-            <TouchableOpacity onPress={this._onPressButton.bind(this)}>
+            <TouchableOpacity onPress={this._onPressButton.bind(this,message.id)}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.headerTitle}>
                         {message.title}
@@ -157,10 +218,11 @@ class AwesomeProject extends Component {
             </TouchableOpacity>
         )
     }
-    _onPressButton() {
+    _onPressButton(messageId) {
         this.props.navigator.push({
             id:"detail",
             component:Detail,
+            params:{messageId:messageId}
         });
     }
     onActionSelected(position) {
@@ -178,7 +240,7 @@ class AwesomeProject extends Component {
     };
     getMessageData() {
         //Alert.alert(this.props.title)
-        _url = REQUEST_URL + 'organization=' + this.props.title
+        _url = REQUEST_URL_MESSAGES + 'organization=' + this.props.title
         console.log(_url)
         fetch(_url)
             .then((response)=>response.json())
