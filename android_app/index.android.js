@@ -16,7 +16,8 @@ import {
     Console
 } from 'react-native'
 
-let REQUEST_URL = 'http://www.lwhile.com/api/0.01/client/loadMessage?';
+let REQUEST_URL_MESSAGES = 'http://www.lwhile.com/api/0.01/client/loadMessage?';
+let REQUEST_URL_DETAIL = 'http://lwhile.com/api/0.01/client/MessageDetail?'
 let _navigator;
 
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -84,8 +85,11 @@ class NavMenu extends Component {
 class Detail extends Component {
     constructor(props) {
         super(props)
+        this.getMessageDetail = this.getMessageDetail.bind(this)
     }
-
+    componentDidMount() {
+        this.getMessageDetail()
+    }
     render() {
         return(
             <View style={styles.container}>
@@ -105,6 +109,18 @@ class Detail extends Component {
     _back() {
         Alert.alert(this.props.messageId)
         this.props.navigator.pop()
+    }
+
+    getMessageDetail() {
+        _url = REQUEST_URL_DETAIL + 'id=' + this.props.messageId
+        console.log(_url)
+        fetch(_url)
+            .then((response)=>response.json())
+            .then((responseData)=>{
+                console.log(_url)
+                console.log(responseData)
+            })
+            .done();
     }
 }
 
@@ -191,7 +207,7 @@ class AwesomeProject extends Component {
     };
     getMessageData() {
         //Alert.alert(this.props.title)
-        _url = REQUEST_URL + 'organization=' + this.props.title
+        _url = REQUEST_URL_MESSAGES + 'organization=' + this.props.title
         console.log(_url)
         fetch(_url)
             .then((response)=>response.json())
@@ -289,4 +305,3 @@ const styles = StyleSheet.create({
 })
 
 AppRegistry.registerComponent('AwesomeProject',()=>NavMain)
-        
