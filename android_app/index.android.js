@@ -95,7 +95,7 @@ class Detail extends Component {
              <ToolbarAndroid
                  navIcon={require('./back_white_16.png')}
                  onIconClicked={this._back.bind(this)}
-                 title="选择频道"
+                 title="查看消息"
                  titleColor='#F8F8FF'
                  style={styles.toolbarAndroid}
              />
@@ -103,6 +103,7 @@ class Detail extends Component {
         )
     }
     _back() {
+        Alert.alert(this.props.messageId)
         this.props.navigator.pop()
     }
 }
@@ -115,6 +116,7 @@ class AwesomeProject extends Component {
                 rowHasChanged:(row1,row2) => row1 !== row2,
             }),
             loaded:false,
+            message:null,
         };
         this.getMessageData = this.getMessageData.bind(this);
     }
@@ -152,7 +154,7 @@ class AwesomeProject extends Component {
     };
     renderMessage(message) {
         return (
-            <TouchableOpacity onPress={this._onPressButton.bind(this)}>
+            <TouchableOpacity onPress={this._onPressButton.bind(this,message.id)}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.headerTitle}>
                         {message.title}
@@ -167,10 +169,11 @@ class AwesomeProject extends Component {
             </TouchableOpacity>
         )
     }
-    _onPressButton() {
+    _onPressButton(messageId) {
         this.props.navigator.push({
             id:"detail",
             component:Detail,
+            params:{messageId:messageId}
         });
     }
     onActionSelected(position) {
@@ -286,3 +289,4 @@ const styles = StyleSheet.create({
 })
 
 AppRegistry.registerComponent('AwesomeProject',()=>NavMain)
+        
