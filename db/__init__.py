@@ -33,7 +33,7 @@ class DBContorller:
         cursor = cls.db.message.find({'org': org}, {'org': 0})
         while (yield cursor.fetch_next):
             document = cursor.next_object()
-            messages.append({'title': document['title'], 'content': document['content'],
+            messages.append({'title': document['title'], 'content': document['content'][:20],
                              'time': str(datetime.strptime(document['time'], '%Y%m%d%H%M%S')),
                              'id': str(document['_id'])})
         return messages
@@ -46,4 +46,5 @@ class DBContorller:
         res['title'] = result['title']
         res['content'] = result['content']
         res['time'] = result['time']
+        res['org'] = result['org']
         return res

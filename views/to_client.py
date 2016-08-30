@@ -16,7 +16,7 @@ class ClientLoadMessage(web.RequestHandler):
         # print('organization:',_organization)
         result = yield DBContorller.get_messages(_organization)
         # yield gen.sleep(8)
-        print('result:',result)
+        # print('result:',result)
         self.write(json.dumps(result, ensure_ascii=False))
 
     def options(self):
@@ -34,8 +34,7 @@ class ClientMessageDetail(web.RequestHandler):
     def get(self):
         _id = self.get_argument('id')
         res = yield DBContorller.get_message_detail(_id)
-        print(res)
-        self.write(res)
+        self.write(json.dumps(res, ensure_ascii=False))
 
     def options(self):
         self.set_status(204)
