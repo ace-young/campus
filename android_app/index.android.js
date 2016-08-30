@@ -99,22 +99,29 @@ class Detail extends Component {
         }
         return(
             <View style={styles.container}>
-            <StatusBar
-                backgroundColor="#1E90FF"
-             />
-             <ToolbarAndroid
-                 navIcon={require('./back_white_16.png')}
-                 onIconClicked={this._back.bind(this)}
-                 title="查看消息"
-                 titleColor='#F8F8FF'
-                 style={styles.toolbarAndroid}
-             />
-             <Text>
-                 Title:{this.state.message.title}
-                 Content:{this.state.message.content}
-                 org:{this.state.message.org}
-                 time:{this.state.message.time}
-             </Text>
+                <StatusBar
+                    backgroundColor="#1E90FF"
+                 />
+                 <ToolbarAndroid
+                     navIcon={require('./back_white_16.png')}
+                     onIconClicked={this._back.bind(this)}
+                     titleColor='#F8F8FF'
+                     title='查看消息'
+                     style={styles.toolbarAndroid}
+                 />
+                <ScrollView>
+                     <Text style={styles.detailTitle}>
+                         {this.state.message.title}
+                     </Text>
+                     <Text style={styles.detailContent}>
+                         {this.state.message.content}
+                     </Text>
+                     <Text style={styles.detailOrg}>―——— {this.state.message.org}</Text>
+
+                     <Text style={styles.detailTime}>
+                         {this.state.message.time}
+                     </Text>
+                </ScrollView>
             </View>
         )
     }
@@ -183,7 +190,7 @@ class AwesomeProject extends Component {
                     backgroundColor="#1E90FF"
                  />
                 <ToolbarAndroid
-                    navIcon={require('./menu16.png')}
+                    navIcon={require('./iconmonstr-menu-2-16.png')}
                     onIconClicked={this.navIconCallback.bind(this)}
                     title={this.props.title}
                     actions={[{title:'设置',show:'never'}, {title:'关于',show:'never'}]}
@@ -334,6 +341,37 @@ const styles = StyleSheet.create({
     separator:{
         height: 10,
         backgroundColor: '#43CD80',
+    },
+    detailTitle:{
+        fontSize: 18,
+        textAlign: 'left',
+        paddingLeft: 15,
+        paddingRight:15,
+        marginTop:10,
+        color: '#000000',
+    },
+    detailTime:{
+        fontSize:12,
+        textAlign:'right',
+        paddingLeft: 15,
+        paddingRight:15,
+        marginTop:10,
+        marginBottom:10,
+    },
+    detailContent:{
+        fontSize: 14,
+        fontFamily:'Cochin',
+        lineHeight  : 25,
+        paddingLeft: 15,
+        paddingRight:15,
+        marginTop:20,
+    },
+    detailOrg:{
+        textAlign:'right',
+        paddingLeft: 15,
+        paddingRight:15,
+        marginTop:10,
+        marginBottom:5,
     }
 })
 
