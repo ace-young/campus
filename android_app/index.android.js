@@ -85,12 +85,18 @@ class NavMenu extends Component {
 class Detail extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            message:null
+        }
         this.getMessageDetail = this.getMessageDetail.bind(this)
     }
     componentDidMount() {
         this.getMessageDetail()
     }
     render() {
+        if(!this.state.message) {
+            return this.renderLoadView()
+        }
         return(
             <View style={styles.container}>
             <StatusBar
@@ -103,11 +109,36 @@ class Detail extends Component {
                  titleColor='#F8F8FF'
                  style={styles.toolbarAndroid}
              />
+             <Text>
+                 Title:{this.state.message.title}
+                 Content:{this.state.message.content}
+                 org:{this.state.message.org}
+                 time:{this.state.message.time}
+             </Text>
+            </View>
+        )
+    }
+    renderLoadView() {
+        return(
+            <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#1E90FF"
+             />
+             <ToolbarAndroid
+                 navIcon={require('./back_white_16.png')}
+                 onIconClicked={this._back.bind(this)}
+                 title="查看消息"
+                 titleColor='#F8F8FF'
+                 style={styles.toolbarAndroid}
+             />
+             <Text>
+                 加载中...
+             </Text>
             </View>
         )
     }
     _back() {
-        Alert.alert(this.props.messageId)
+        //Alert.alert(this.props.messageId)
         this.props.navigator.pop()
     }
 
@@ -117,6 +148,9 @@ class Detail extends Component {
         fetch(_url)
             .then((response)=>response.json())
             .then((responseData)=>{
+                this.setState({
+                    message:responseData
+                });
                 console.log(_url)
                 console.log(responseData)
             })
@@ -132,7 +166,6 @@ class AwesomeProject extends Component {
                 rowHasChanged:(row1,row2) => row1 !== row2,
             }),
             loaded:false,
-            message:null,
         };
         this.getMessageData = this.getMessageData.bind(this);
     }
